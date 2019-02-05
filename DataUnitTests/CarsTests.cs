@@ -50,7 +50,7 @@ namespace DataUnitTests
 
             await _testObject.Upsert(existingCar);
 
-            var car = _inMemoryDemoContext.Cars.Single(x => x.CarId == _carId);
+            var car = _inMemoryDemoContext.Cars.Single();
             Assert.That(car.CarDrivers.Any(x => x.DriverId == _driverId2), Is.True);
         }
 
