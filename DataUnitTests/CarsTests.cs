@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data212;
+using Data;
 using NUnit.Framework;
 
-namespace Data212UnitTests
+namespace DataUnitTests
 {
     [TestFixture]
     public class CarsTests
@@ -44,7 +44,7 @@ namespace Data212UnitTests
         {
             var existingCar = _inMemoryDemoContext.Cars.Single();
 
-            var newCarDriver = new CarDriver {CarId = _carId, DriverId = _driverId2};
+            var newCarDriver = new CarDriver { CarId = _carId, DriverId = _driverId2 };
             existingCar.CarDrivers.Add(newCarDriver);
             await _inMemoryDemoContext.SaveChangesAsync();
 
