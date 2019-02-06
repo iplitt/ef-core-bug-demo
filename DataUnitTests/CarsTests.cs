@@ -60,7 +60,7 @@ namespace DataUnitTests
 
             _inMemoryDemoContext.SaveChanges();
 
-            var actual = await _testObject.Get(new List<string> { _carId1 });
+            var actual = await _testObject.Get(_carId1);
             Console.WriteLine(JsonConvert.SerializeObject(actual));
 
             Assert.That(actual.Single().CarDrivers.Count, Is.EqualTo(1));
