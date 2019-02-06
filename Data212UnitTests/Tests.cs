@@ -30,7 +30,7 @@ namespace Data212UnitTests
         }
 
         [Test]
-        public void ExposesOneCarDriver()
+        public void IncludeCarDrivers_ExposesOneCarDriver()
         {
             var actual = _inMemoryDemoContext.Cars.Where(x => x.CarId == _carId)
                 .Include(x => x.CarDrivers).ToList();
@@ -41,7 +41,7 @@ namespace Data212UnitTests
         }
 
         [Test]
-        public void ExposesAddedCarDriver()
+        public void IncludeCarDrivers_ExposesAddedCarDriver()
         {
             var driverId2 = "D2";
 
