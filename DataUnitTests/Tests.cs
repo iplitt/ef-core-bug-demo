@@ -17,25 +17,20 @@ namespace DataUnitTests
         public void SetUp()
         {
             _carId = "C1";
-            var driverId1 = "D1";
 
             _inMemoryDemoContext = new InMemoryDemoContext();
             _inMemoryDemoContext.Database.EnsureDeleted();
 
-            _inMemoryDemoContext.Cars.Add(
-                new TestCarBuilder().WithCarId(_carId).Build());
-
-            _inMemoryDemoContext.Drivers.Add(
-                new TestDriverBuilder().WithDriverId(driverId1).Build());
-
-            _inMemoryDemoContext.CarDrivers.Add(
-                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(driverId1).Build());
+            var driverId1 = "D1";
+            _inMemoryDemoContext.Cars.Add(new Car { CarId = _carId });
+            _inMemoryDemoContext.Drivers.Add(new Driver { DriverId = driverId1 });
+            _inMemoryDemoContext.CarDrivers.Add(new CarDriver { CarId = _carId, DriverId = driverId1 });
 
             _inMemoryDemoContext.SaveChanges();
         }
 
         [Test]
-        public void Baseline()
+        public void ExposesOneCarDriver()
         {
             var actual = _inMemoryDemoContext.Cars.Where(x => x.CarId == _carId)
                 .Include(x => x.CarDrivers).ToList();
@@ -50,11 +45,8 @@ namespace DataUnitTests
         {
             var driverId2 = "D2";
 
-            _inMemoryDemoContext.Drivers.Add(
-                new TestDriverBuilder().WithDriverId(driverId2).Build());
-
-            _inMemoryDemoContext.CarDrivers.Add(
-                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(driverId2).Build());
+            _inMemoryDemoContext.Drivers.Add(new Driver { DriverId = driverId2 });
+            _inMemoryDemoContext.CarDrivers.Add(new CarDriver { CarId = _carId, DriverId = driverId2 });
 
             _inMemoryDemoContext.SaveChanges();
 
