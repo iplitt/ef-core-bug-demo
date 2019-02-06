@@ -6,7 +6,6 @@ namespace Data212UnitTests
     {
         private string _carId;
         private string _driverId;
-        private Driver _driver;
 
         public TestCarDriverBuilder()
         {
@@ -17,7 +16,6 @@ namespace Data212UnitTests
         {
             _carId = "9876543210";
             _driverId = "12365478963";
-            _driver = null;
         }
         public CarDriver Build()
         {
@@ -26,8 +24,6 @@ namespace Data212UnitTests
                 CarId = _carId,
                 DriverId = _driverId 
             };
-            if (_driver != null)
-                carDriver.Driver = _driver;
 
             return carDriver;
         }

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Data;
+using Data212;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace DataUnitTests
+namespace Data212UnitTests
 {
     [TestFixture]
-    public class CarsTests
+    public class Tests
     {
-        private ICars _testObject;
         private DemoContext _inMemoryDemoContext;
         private string _carId;
         private string _driverId1;
@@ -36,7 +35,7 @@ namespace DataUnitTests
             };
             _carDrivers = new List<CarDriver>
             {
-                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(_driverId1).Build()
+                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(_driverId1).Build() 
             };
 
             _inMemoryDemoContext = new InMemoryDemoContext();
@@ -46,12 +45,10 @@ namespace DataUnitTests
             _inMemoryDemoContext.Drivers.AddRange(_drivers);
             _inMemoryDemoContext.CarDrivers.AddRange(_carDrivers);
             _inMemoryDemoContext.SaveChanges();
-
-            _testObject = new Cars(_inMemoryDemoContext);
         }
 
         [Test]
-        public async Task ExposesCarDrivers()
+        public void ExposesCarDrivers()
         {
             var newDrivers = new List<Driver>
             {
@@ -66,7 +63,9 @@ namespace DataUnitTests
 
             _inMemoryDemoContext.SaveChanges();
 
-            var actual = await _testObject.Get(_carId);
+            var actual = _inMemoryDemoContext.Cars.Where(x => x.CarId == _carId)
+                .Include(x => x.CarDrivers).ToList();
+
             Console.WriteLine(JsonConvert.SerializeObject(actual));
 
             Assert.That(actual.Single().CarDrivers.Count, Is.EqualTo(1));

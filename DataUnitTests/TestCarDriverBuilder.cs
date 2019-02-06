@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Data;
 
 namespace DataUnitTests
@@ -9,7 +6,6 @@ namespace DataUnitTests
     {
         private string _carId;
         private string _driverId;
-        private Driver _driver;
 
         public TestCarDriverBuilder()
         {
@@ -20,7 +16,6 @@ namespace DataUnitTests
         {
             _carId = "9876543210";
             _driverId = "12365478963";
-            _driver = null;
         }
         public CarDriver Build()
         {
@@ -29,8 +24,6 @@ namespace DataUnitTests
                 CarId = _carId,
                 DriverId = _driverId
             };
-            if (_driver != null)
-                carDriver.Driver = _driver;
 
             return carDriver;
         }
