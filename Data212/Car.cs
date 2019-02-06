@@ -7,8 +7,6 @@ namespace Data212
     {
         [Key, MaxLength(14)]
         public string CarId { get; set; }
-        [Required, MaxLength(14)]
-        public string Model { get; set; }
         public List<CarDriver> CarDrivers { get; set; }
     }
 }

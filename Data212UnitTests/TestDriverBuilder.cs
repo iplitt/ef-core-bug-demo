@@ -5,7 +5,6 @@ namespace Data212UnitTests
     public class TestDriverBuilder
     {
         private string _driverId;
-        private string _name;
 
         public TestDriverBuilder()
         {
@@ -15,7 +14,6 @@ namespace Data212UnitTests
         private void SetUp()
         {
             _driverId = "31492192620";
-            _name = "Joe";
         }
 
         public Driver Build()
@@ -23,7 +21,6 @@ namespace Data212UnitTests
             var driver = new Driver
             {
                 DriverId = _driverId,
-                Name = _name
             };
 
             return driver;
@@ -32,13 +29,6 @@ namespace Data212UnitTests
         public TestDriverBuilder WithDriverId(string driverId)
         {
             _driverId = driverId;
-            return this;
-        }
-
-
-        public TestDriverBuilder WithName(string name)
-        {
-            _name = name;
             return this;
         }
 

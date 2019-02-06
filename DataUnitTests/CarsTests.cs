@@ -13,7 +13,7 @@ namespace DataUnitTests
     {
         private ICars _testObject;
         private DemoContext _inMemoryDemoContext;
-        private string _carId1;
+        private string _carId;
         private string _driverId1;
         private string _driverId2;
         private List<Car> _cars;
@@ -23,12 +23,12 @@ namespace DataUnitTests
         [SetUp]
         public void SetUp()
         {
-            _carId1 = "C1";
+            _carId = "C1";
             _driverId1 = "D1";
             _driverId2 = "D2";
             _cars = new List<Car>
             {
-                new TestCarBuilder().WithCarId(_carId1).Build()
+                new TestCarBuilder().WithCarId(_carId).Build()
             };
             _drivers = new List<Driver>
             {
@@ -36,10 +36,16 @@ namespace DataUnitTests
             };
             _carDrivers = new List<CarDriver>
             {
-                new TestCarDriverBuilder().WithCarId(_carId1).WithDriverId(_driverId1).Build()
+                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(_driverId1).Build()
             };
 
-            Initialize();
+            _inMemoryDemoContext = new InMemoryDemoContext();
+            _inMemoryDemoContext.Database.EnsureDeleted();
+
+            _inMemoryDemoContext.Cars.AddRange(_cars);
+            _inMemoryDemoContext.Drivers.AddRange(_drivers);
+            _inMemoryDemoContext.CarDrivers.AddRange(_carDrivers);
+            _inMemoryDemoContext.SaveChanges();
 
             _testObject = new Cars(_inMemoryDemoContext);
         }
@@ -55,28 +61,16 @@ namespace DataUnitTests
 
             _carDrivers.AddRange(new List<CarDriver>
             {
-                new TestCarDriverBuilder().WithCarId(_carId1).WithDriverId(_driverId2).Build(),
+                new TestCarDriverBuilder().WithCarId(_carId).WithDriverId(_driverId2).Build(),
             });
 
             _inMemoryDemoContext.SaveChanges();
 
-            var actual = await _testObject.Get(_carId1);
+            var actual = await _testObject.Get(_carId);
             Console.WriteLine(JsonConvert.SerializeObject(actual));
 
             Assert.That(actual.Single().CarDrivers.Count, Is.EqualTo(1));
         }
-
-        private void Initialize()
-        {
-            _inMemoryDemoContext = new InMemoryDemoContext() { ProviderSpecificCommands = new InMemoryProviderSpecificCommands() };
-            _inMemoryDemoContext.Database.EnsureDeleted();
-
-            _inMemoryDemoContext.Cars.AddRange(_cars);
-            _inMemoryDemoContext.Drivers.AddRange(_drivers);
-            _inMemoryDemoContext.CarDrivers.AddRange(_carDrivers);
-            _inMemoryDemoContext.SaveChanges();
-        }
-
 
     }
 }

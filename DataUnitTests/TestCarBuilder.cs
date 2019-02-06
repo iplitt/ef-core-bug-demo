@@ -4,7 +4,6 @@ namespace DataUnitTests
 {
     public class TestCarBuilder
     {
-        private string _model;
         private string _carId;
 
         public TestCarBuilder()
@@ -14,7 +13,6 @@ namespace DataUnitTests
 
         private void SetUp()
         {
-            _model = "ABC123";
             _carId = "123";
         }
 
@@ -22,7 +20,6 @@ namespace DataUnitTests
         {
             var car = new Car
             {
-                Model = _model,
                 CarId = _carId,
             };
 
@@ -32,12 +29,6 @@ namespace DataUnitTests
         public TestCarBuilder WithCarId(string carId)
         {
             _carId = carId;
-            return this;
-        }
-
-        public TestCarBuilder WithModel(string model)
-        {
-            _model = model;
             return this;
         }
 
