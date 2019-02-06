@@ -4,18 +4,11 @@ namespace Data212UnitTests
 {
     public class TestDriverBuilder
     {
-        private readonly DemoContext _inMemoryDemoContext;
         private string _driverId;
         private string _name;
 
         public TestDriverBuilder()
         {
-            SetUp();
-        }
-
-        public TestDriverBuilder(DemoContext inMemoryDemoContext)
-        {
-            _inMemoryDemoContext = inMemoryDemoContext;
             SetUp();
         }
 
@@ -33,19 +26,8 @@ namespace Data212UnitTests
                 Name = _name
             };
 
-
-            if (_inMemoryDemoContext != null)
-                ApplyInMemoryData(driver);
-
             return driver;
         }
-
-        private void ApplyInMemoryData(Driver driver)
-        {
-            _inMemoryDemoContext.Drivers.Add(driver);
-            _inMemoryDemoContext.SaveChanges();
-        }
-
 
         public TestDriverBuilder WithDriverId(string driverId)
         {

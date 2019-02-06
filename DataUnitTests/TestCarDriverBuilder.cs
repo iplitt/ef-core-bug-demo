@@ -9,8 +9,6 @@ namespace DataUnitTests
     {
         private string _carId;
         private string _driverId;
-        private DateTime? _preReleaseDate;
-        private readonly DemoContext _inMemoryDemoContext;
         private Driver _driver;
 
         public TestCarDriverBuilder()
@@ -18,23 +16,18 @@ namespace DataUnitTests
             SetUp();
         }
 
-        public TestCarDriverBuilder(DemoContext inMemoryDemoContext)
-        {
-            _inMemoryDemoContext = inMemoryDemoContext;
-            SetUp();
-        }
-
         private void SetUp()
         {
-            _driverId = "12365478963";
             _carId = "9876543210";
+            _driverId = "12365478963";
+            _driver = null;
         }
         public CarDriver Build()
         {
             var carDriver = new CarDriver
             {
                 CarId = _carId,
-                DriverId = _driverId 
+                DriverId = _driverId
             };
             if (_driver != null)
                 carDriver.Driver = _driver;
@@ -52,29 +45,6 @@ namespace DataUnitTests
         {
             _carId = carId;
             return this;
-        }
-
-        public TestCarDriverBuilder WithDriver(Driver driver)
-        {
-            _driver = driver;
-            return this;
-        }
-
-        public void AddCarDriversToInMemoryDb(List<CarDriver> carDrivers, string carId)
-        {
-            for (var i = 0; i < carDrivers.Count; i++)
-            {
-                var carDriver = carDrivers[i];
-                carDriver.CarId = carId;
-                if (!_inMemoryDemoContext.Drivers.Any(x => x.DriverId == carDriver.DriverId))
-                {
-                    var driver = carDriver.Driver ?? new TestDriverBuilder().WithDriverId(carDriver.DriverId ?? (i + 1).ToString()).Build();
-                    carDriver.DriverId = driver.DriverId;
-                    _inMemoryDemoContext.Drivers.Add(driver);
-                }
-            }
-            _inMemoryDemoContext.CarDrivers.AddRange(carDrivers);
-
         }
 
     }
